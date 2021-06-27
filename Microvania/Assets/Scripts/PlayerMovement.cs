@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     public float jumpSpeed = 10f;
+    public LayerMask whatIsGround;
     public float walkSpeed = 10f;
 
     private Rigidbody2D rb;
