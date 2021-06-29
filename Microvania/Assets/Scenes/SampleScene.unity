@@ -2299,6 +2299,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   jumpSpeed: 10
   walkSpeed: 7
+  dashSpeed: 30
   movementSmoothing: 0.05
   groundCheck: {fileID: 1006975955}
   groundedRadius: 0.13

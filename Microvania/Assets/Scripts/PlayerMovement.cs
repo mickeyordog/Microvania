@@ -7,6 +7,7 @@ public class PlayerMovement : MonoBehaviour
 {
     public float jumpSpeed = 10f;
     public float walkSpeed = 10f;
+    public float dashSpeed = 10f;
 
     private Vector2 velocity = Vector2.zero;
     public float movementSmoothing = 0.05f;
@@ -18,6 +19,8 @@ public class PlayerMovement : MonoBehaviour
     public Transform wallCheck;
     public float walledRadius;
     private bool isOnWall;
+
+
 
     private Rigidbody2D rb;
     private Animator anim;
@@ -49,19 +52,33 @@ public class PlayerMovement : MonoBehaviour
             anim.SetTrigger("jumpTrigger");
             AudioManager.Instance.PlaySound("Jump");
         }
-        float targetHorizontalVelocity = Input.GetAxisRaw("Horizontal") * walkSpeed;
-        if (targetHorizontalVelocity < 0f)
+        Debug.Log(rb.velocity.x);
+        if (Input.GetButtonDown("Fire1"))
         {
-            //sr.flipX = true;
-            transform.rotation = Quaternion.Euler(transform.position.x, 180, transform.position.z);
-        }
-        else if (targetHorizontalVelocity > 0f)
+            Debug.Log("Dashing");
+            //rb.velocity = new Vector2(Input.GetAxisRaw("Horizontal") * dashSpeed, rb.velocity.y);
+            rb.velocity = new Vector2(transform.right.x * dashSpeed, rb.velocity.y);
+
+        } else
         {
-            //sr.flipX = false;
-            transform.rotation = Quaternion.Euler(transform.position.x, 0, transform.position.z);
+            
+            float targetHorizontalVelocity = Input.GetAxisRaw("Horizontal") * walkSpeed;
+            if (targetHorizontalVelocity < 0f)
+            {
+                //sr.flipX = true;
+                transform.rotation = Quaternion.Euler(transform.position.x, 180, transform.position.z);
+            }
+            else if (targetHorizontalVelocity > 0f)
+            {
+                //sr.flipX = false;
+                transform.rotation = Quaternion.Euler(transform.position.x, 0, transform.position.z);
+            }
+
+
+            //rb.velocity = new Vector2(targetHorizontalVelocity, rb.velocity.y);
+            rb.velocity = Vector2.SmoothDamp(rb.velocity, new Vector2(targetHorizontalVelocity, rb.velocity.y), ref velocity, movementSmoothing);
         }
-        //rb.velocity = new Vector2(targetHorizontalVelocity, rb.velocity.y);
-        rb.velocity = Vector2.SmoothDamp(rb.velocity, new Vector2(targetHorizontalVelocity, rb.velocity.y), ref velocity, movementSmoothing);
+        
 
         // this method should be in fixedUpdate
         CheckGrounded();
