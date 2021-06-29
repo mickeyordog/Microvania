@@ -37,6 +37,7 @@ public class PlayerMovement : MonoBehaviour
         {
             rb.velocity = new Vector2(rb.velocity.x, jumpSpeed);
             anim.SetTrigger("jumpTrigger");
+            AudioManager.Instance.PlaySound("Jump");
         }
         float horizontalVelocity = Input.GetAxisRaw("Horizontal");
         if (horizontalVelocity < 0f)
