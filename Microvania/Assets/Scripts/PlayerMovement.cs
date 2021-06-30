@@ -15,6 +15,10 @@ public class PlayerMovement : MonoBehaviour
     public Transform groundCheck;
     public float groundedRadius;
     public LayerMask whatIsGround;
+    private float timeLastOnGround = 0f;
+    public float coyoteTimeInterval = 0.1f;
+    private float timeLastPressedJump = Mathf.NegativeInfinity;
+    public float jumpBufferInterval = 0.1f;
 
     public Transform wallCheck;
     public float walledRadius;
@@ -44,15 +48,19 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if ((isGrounded || isOnWall) && Input.GetButtonDown("Jump"))
+        if (Input.GetButtonDown("Jump"))
         {
+            timeLastPressedJump = Time.time;
+        }
+        //if ((isGrounded || isOnWall || Time.time - timeLastOnGround <= coyoteTimeInterval) && Time.time - timeLastPressedJump <= jumpBufferInterval)
+        if ((isGrounded && Time.time - timeLastPressedJump <= jumpBufferInterval) || ((isOnWall || Time.time - timeLastOnGround <= coyoteTimeInterval) && Input.GetButtonDown("Jump")))
+        {
+            timeLastPressedJump = Mathf.NegativeInfinity;
             rb.velocity = new Vector2(rb.velocity.x, jumpSpeed);
-            //rb.AddForce(Vector2.up * jumpSpeed);
             isGrounded = false;
             anim.SetTrigger("jumpTrigger");
             AudioManager.Instance.PlaySound("Jump");
         }
-        Debug.Log(rb.velocity.x);
         if (Input.GetButtonDown("Fire1"))
         {
             Debug.Log("Dashing");
@@ -115,6 +123,7 @@ public class PlayerMovement : MonoBehaviour
         {
             if (colliders[i].gameObject != gameObject)
             {
+                timeLastOnGround = Time.time;
                 isGrounded = true;
                 if (!wasGrounded)
                 {
