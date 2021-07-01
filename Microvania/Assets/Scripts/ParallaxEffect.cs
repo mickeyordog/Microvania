@@ -7,6 +7,7 @@ public class ParallaxEffect : MonoBehaviour
 	private float length, startPos;
 	public GameObject cam;
 	public float parallaxFactor;
+	public float independentSpeed = 0f;
 
 	void Start()
 	{
@@ -16,6 +17,9 @@ public class ParallaxEffect : MonoBehaviour
 
 	void LateUpdate()
 	{
+		float independentDist = independentSpeed * Time.deltaTime;
+		startPos += independentDist;
+
 		float temp = (cam.transform.position.x * (1 - parallaxFactor));
 		float dist = (cam.transform.position.x * parallaxFactor);
 
