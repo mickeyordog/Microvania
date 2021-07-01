@@ -19,6 +19,8 @@ public class PlayerMovement : MonoBehaviour
     public float coyoteTimeInterval = 0.1f;
     private float timeLastPressedJump = Mathf.NegativeInfinity;
     public float jumpBufferInterval = 0.1f;
+    private float timeOfLastJump = Mathf.NegativeInfinity;
+    public float variableJumpHeightInterval = 0.25f;
 
     public Transform wallCheck;
     public float walledRadius;
@@ -56,14 +58,15 @@ public class PlayerMovement : MonoBehaviour
         if ((isGrounded && Time.time - timeLastPressedJump <= jumpBufferInterval) || ((isOnWall || Time.time - timeLastOnGround <= coyoteTimeInterval) && Input.GetButtonDown("Jump")))
         {
             timeLastPressedJump = Mathf.NegativeInfinity;
+            timeOfLastJump = Time.time;
             rb.velocity = new Vector2(rb.velocity.x, jumpSpeed);
             isGrounded = false;
             anim.SetTrigger("jumpTrigger");
             AudioManager.Instance.PlaySound("Jump");
-        }
+        } 
         if (Input.GetButtonDown("Fire1"))
         {
-            Debug.Log("Dashing");
+            //Debug.Log("Dashing");
             //rb.velocity = new Vector2(Input.GetAxisRaw("Horizontal") * dashSpeed, rb.velocity.y);
             rb.velocity = new Vector2(transform.right.x * dashSpeed, rb.velocity.y);
 
@@ -106,7 +109,7 @@ public class PlayerMovement : MonoBehaviour
                 isOnWall = true;
                 if (!wasOnWall)
                 {
-                    Debug.Log("Landed on wall");
+                    //Debug.Log("Landed on wall");
                 }
                 break;
             }
@@ -127,7 +130,7 @@ public class PlayerMovement : MonoBehaviour
                 isGrounded = true;
                 if (!wasGrounded)
                 {
-                    Debug.Log("Landed");
+                    //Debug.Log("Landed");
                     anim.SetTrigger("landedTrigger");
 
                 }
@@ -138,7 +141,10 @@ public class PlayerMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
-        
+        if (Input.GetButton("Jump") && rb.velocity.y > 0f && Time.time - timeOfLastJump <= variableJumpHeightInterval)
+        {
+            rb.velocity = new Vector2(rb.velocity.x, jumpSpeed);
+        }
     }
 
     private void OnDrawGizmosSelected()

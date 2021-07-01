@@ -2800,7 +2800,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bcf032a6b19999e4c96d168a1d3f7291, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  jumpSpeed: 10
+  jumpSpeed: 8
   walkSpeed: 7
   dashSpeed: 30
   movementSmoothing: 0.05
@@ -2811,6 +2811,7 @@ MonoBehaviour:
     m_Bits: 64
   coyoteTimeInterval: 0.1
   jumpBufferInterval: 0.1
+  variableJumpHeightInterval: 0.25
   wallCheck: {fileID: 542955870}
   walledRadius: 0.1
 --- !u!1 &1941642138
