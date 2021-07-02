@@ -31,6 +31,7 @@ public class PlayerMovement : MonoBehaviour
     private Rigidbody2D rb;
     private Animator anim;
     private SpriteRenderer sr;
+    private Collider2D coll;
 
     private bool isGrounded;
 
@@ -39,6 +40,7 @@ public class PlayerMovement : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponentInChildren<Animator>();
         sr = GetComponentInChildren<SpriteRenderer>();
+        coll = GetComponent<Collider2D>();
     }
 
     // Start is called before the first frame update
@@ -89,12 +91,26 @@ public class PlayerMovement : MonoBehaviour
             //rb.velocity = new Vector2(targetHorizontalVelocity, rb.velocity.y);
             rb.velocity = Vector2.SmoothDamp(rb.velocity, new Vector2(targetHorizontalVelocity, rb.velocity.y), ref velocity, movementSmoothing);
         }
+
+        if (Input.GetAxisRaw("Vertical") < 0f)
+        {
+            RaycastHit2D hit = Physics2D.Linecast(transform.position, groundCheck.position + Vector3.down/8, 1 << LayerMask.NameToLayer("Platform"));
+            if (hit)
+                StartCoroutine("DisableCollider");
+        }
         
 
         // this method should be in fixedUpdate
         CheckGrounded();
 
         CheckOnWall();
+    }
+
+    private IEnumerator DisableCollider()
+    {
+        coll.isTrigger = true;
+        yield return new WaitForSeconds(0.4f);
+        coll.isTrigger = false;
     }
 
     private void CheckOnWall()
