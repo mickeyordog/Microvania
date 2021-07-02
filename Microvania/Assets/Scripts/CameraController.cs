@@ -5,9 +5,19 @@ using UnityEngine;
 public class CameraController : MonoBehaviour
 {
     Transform player;
+    public bool followPlayer = true;
     public bool followY = false;
-    // Start is called before the first frame update
-    void Start()
+
+    public static CameraController Instance;
+    private void Awake()
+    {
+        if (Instance == null)
+            Instance = this;
+        if (Instance != this)
+            Destroy(this);
+    }
+        // Start is called before the first frame update
+        void Start()
     {
         player = Player.Instance.transform;
     }
@@ -15,14 +25,19 @@ public class CameraController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        float targetY;
-        if (followY)
+        if (followPlayer)
         {
-            targetY = player.transform.position.y;
-        } else
-        {
-            targetY = transform.position.y;
+            float targetY;
+            if (followY)
+            {
+                targetY = player.transform.position.y;
+            }
+            else
+            {
+                targetY = transform.position.y;
+            }
+            transform.position = new Vector3(player.position.x, targetY, transform.position.z);
         }
-        transform.position = new Vector3(player.position.x, targetY, transform.position.z);
+        
     }
 }

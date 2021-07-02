@@ -94,7 +94,7 @@ public class PlayerMovement : MonoBehaviour
 
         if (Input.GetAxisRaw("Vertical") < 0f)
         {
-            RaycastHit2D hit = Physics2D.Linecast(transform.position, groundCheck.position + Vector3.down/8, 1 << LayerMask.NameToLayer("Platform"));
+            RaycastHit2D hit = Physics2D.Linecast(transform.position, groundCheck.position + Vector3.down/4, 1 << LayerMask.NameToLayer("Platform"));
             if (hit)
                 StartCoroutine("DisableCollider");
         }
