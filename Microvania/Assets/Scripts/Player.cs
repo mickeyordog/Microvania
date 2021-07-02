@@ -68,5 +68,14 @@ public class Player : MonoBehaviour
         {
             StartCoroutine("Die", true);
         }
+
+        StompableEnemy se = collision.gameObject.GetComponent<StompableEnemy>();
+        if (se)
+        {
+            if (se.TryToStomp(collision))
+            {
+                movement.Jump();
+            }
+        }
     }
 }

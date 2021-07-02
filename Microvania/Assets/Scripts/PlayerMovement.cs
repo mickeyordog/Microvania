@@ -57,53 +57,71 @@ public class PlayerMovement : MonoBehaviour
             timeLastPressedJump = Time.time;
         }
         //if ((isGrounded || isOnWall || Time.time - timeLastOnGround <= coyoteTimeInterval) && Time.time - timeLastPressedJump <= jumpBufferInterval)
-        if ((isGrounded && Time.time - timeLastPressedJump <= jumpBufferInterval) || ((isOnWall || Time.time - timeLastOnGround <= coyoteTimeInterval) && Input.GetButtonDown("Jump")))
+        if (CanJump())
         {
-            timeLastPressedJump = Mathf.NegativeInfinity;
-            timeOfLastJump = Time.time;
-            rb.velocity = new Vector2(rb.velocity.x, jumpSpeed);
-            isGrounded = false;
-            anim.SetTrigger("jumpTrigger");
-            AudioManager.Instance.PlaySound("Jump");
-        } 
+            Jump();
+        }
         if (Input.GetButtonDown("Fire1"))
         {
-            //Debug.Log("Dashing");
-            //rb.velocity = new Vector2(Input.GetAxisRaw("Horizontal") * dashSpeed, rb.velocity.y);
-            rb.velocity = new Vector2(transform.right.x * dashSpeed, rb.velocity.y);
+            Dash();
 
-        } else
+        }
+        else
         {
-            
-            float targetHorizontalVelocity = Input.GetAxisRaw("Horizontal") * walkSpeed;
-            if (targetHorizontalVelocity < 0f)
-            {
-                //sr.flipX = true;
-                transform.rotation = Quaternion.Euler(transform.position.x, 180, transform.position.z);
-            }
-            else if (targetHorizontalVelocity > 0f)
-            {
-                //sr.flipX = false;
-                transform.rotation = Quaternion.Euler(transform.position.x, 0, transform.position.z);
-            }
-
-
-            //rb.velocity = new Vector2(targetHorizontalVelocity, rb.velocity.y);
-            rb.velocity = Vector2.SmoothDamp(rb.velocity, new Vector2(targetHorizontalVelocity, rb.velocity.y), ref velocity, movementSmoothing);
+            SetHorizontalVelocity();
         }
 
-        if (Input.GetAxisRaw("Vertical") < 0f)
+        if (Input.GetAxisRaw("Vertical") < 0f && PlatformIsBelow())
         {
-            RaycastHit2D hit = Physics2D.Linecast(transform.position, groundCheck.position + Vector3.down/4, 1 << LayerMask.NameToLayer("Platform"));
-            if (hit)
-                StartCoroutine("DisableCollider");
+            StartCoroutine(nameof(DisableCollider));
         }
-        
+
 
         // this method should be in fixedUpdate
         CheckGrounded();
 
         CheckOnWall();
+    }
+
+    private bool PlatformIsBelow()
+    {
+        RaycastHit2D hit = Physics2D.Linecast(transform.position, groundCheck.position + Vector3.down / 4, 1 << LayerMask.NameToLayer("Platform"));
+        return hit;
+    }
+
+    private void SetHorizontalVelocity()
+    {
+        float targetHorizontalVelocity = Input.GetAxisRaw("Horizontal") * walkSpeed;
+        if (targetHorizontalVelocity < 0f)
+        {
+            transform.rotation = Quaternion.Euler(transform.position.x, 180, transform.position.z);
+        }
+        else if (targetHorizontalVelocity > 0f)
+        {
+            transform.rotation = Quaternion.Euler(transform.position.x, 0, transform.position.z);
+        }
+
+        rb.velocity = Vector2.SmoothDamp(rb.velocity, new Vector2(targetHorizontalVelocity, rb.velocity.y), ref velocity, movementSmoothing);
+    }
+
+    private bool CanJump()
+    {
+        return (isGrounded && Time.time - timeLastPressedJump <= jumpBufferInterval) || ((isOnWall || Time.time - timeLastOnGround <= coyoteTimeInterval) && Input.GetButtonDown("Jump"));
+    }
+
+    private void Dash()
+    {
+        rb.velocity = new Vector2(transform.right.x * dashSpeed, rb.velocity.y);
+    }
+
+    public void Jump()
+    {
+        timeLastPressedJump = Mathf.NegativeInfinity;
+        timeOfLastJump = Time.time;
+        rb.velocity = new Vector2(rb.velocity.x, jumpSpeed);
+        isGrounded = false;
+        anim.SetTrigger("jumpTrigger");
+        AudioManager.Instance.PlaySound("Jump");
     }
 
     private IEnumerator DisableCollider()
