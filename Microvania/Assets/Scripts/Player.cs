@@ -4,14 +4,13 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 
-public class Player : MonoBehaviour
+public class Player : Mob
 {
     Vector3 respawnPoint;
 
     private Rigidbody2D rb;
     private Collider2D coll;
-    public float deathVel = 10f; //how fast should fly away on death
-    public float deathSpin = 1000f; //how much torque to apply on death
+    
     PlayerMovement movement;
 
     public static Player Instance;
@@ -40,14 +39,18 @@ public class Player : MonoBehaviour
         
     }
 
+    void DieWrapper(bool shouldGoLeft)
+    {
+        StartCoroutine(nameof(Die), shouldGoLeft);
+    }
+
     IEnumerator Die(bool shouldGoLeft)
     {
-        coll.enabled = false;
-        rb.velocity = new Vector2((shouldGoLeft) ? -1f : 1f, 1f) * deathVel;
-        rb.constraints = RigidbodyConstraints2D.None;
-        rb.AddTorque((shouldGoLeft) ? deathSpin : -deathSpin);
+        
         movement.enabled = false;
         CameraController.Instance.followPlayer = false;
+        SpinAway(shouldGoLeft);
+
         yield return new WaitForSeconds(2f);
 
 
@@ -66,7 +69,7 @@ public class Player : MonoBehaviour
         ContactDamager cd = collision.gameObject.GetComponent<ContactDamager>();
         if (cd)
         {
-            StartCoroutine("Die", true);
+            DieWrapper(true);
         }
 
         StompableEnemy se = collision.gameObject.GetComponent<StompableEnemy>();
@@ -75,6 +78,10 @@ public class Player : MonoBehaviour
             if (se.TryToStomp(collision))
             {
                 movement.Jump();
+            } else
+            {
+                bool shouldGoLeft = collision.GetContact(0).normal.x < 0 ? true : false;
+                DieWrapper(shouldGoLeft);
             }
         }
     }

@@ -2,11 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class StompableEnemy : MonoBehaviour
+public class StompableEnemy : Mob
 {
     public Vector2 stompableDirection = Vector2.up;
     public float minDotWithStompDirection = 0.75f;
     public float deathLaunchForce = 10f;
+
+    public GameObject spawnOnDeath;
+    public int numToSpawnOnDeath;
+
 
     Rigidbody2D rb;
 
@@ -27,13 +31,16 @@ public class StompableEnemy : MonoBehaviour
         
     }
 
-    void Die(Vector2 launchDirection)
+    void Die(bool shouldGoLeft)
     {
-        rb.constraints = RigidbodyConstraints2D.None;
-        GetComponent<Collider2D>().enabled = false;
-        rb.velocity = Vector2.zero;
-        rb.AddForce(launchDirection * deathLaunchForce);
-        
+        SpinAway(true);
+        if (spawnOnDeath)
+        {
+            for (int i = 0; i < numToSpawnOnDeath; i++)
+                Instantiate(spawnOnDeath, transform.position, Quaternion.identity);
+        }
+            
+        Destroy(gameObject, 3f);
     }
 
     // return true if stomp successful
@@ -45,7 +52,8 @@ public class StompableEnemy : MonoBehaviour
         //Debug.Log(dot);
         if (dot >= minDotWithStompDirection)
         {
-            //Die(contact.normal);
+            bool shouldGoLeft = contact.normal.x > 0f ? true : false;
+            Die(shouldGoLeft);
             return true;
         } else
         {
@@ -53,3 +61,4 @@ public class StompableEnemy : MonoBehaviour
         }
     }
 }
+
