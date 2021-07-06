@@ -84,5 +84,20 @@ public class Player : Mob
                 DieWrapper(shouldGoLeft);
             }
         }
+
+        PatrollingPlatform pp = collision.gameObject.GetComponent<PatrollingPlatform>();
+        if (pp)
+        {
+            transform.parent = pp.transform;
+        }
+    }
+
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        PatrollingPlatform pp = collision.gameObject.GetComponent<PatrollingPlatform>();
+        if (pp)
+        {
+            transform.parent = null;
+        }
     }
 }

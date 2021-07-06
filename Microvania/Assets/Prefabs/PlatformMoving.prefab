@@ -10,9 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 659868014981182602}
   - component: {fileID: 659868014981182601}
-  - component: {fileID: 659868014981182603}
   - component: {fileID: 659868014981182597}
   - component: {fileID: 659868014981182596}
+  - component: {fileID: 451073071}
   m_Layer: 7
   m_Name: PlatformMoving
   m_TagString: Untagged
@@ -86,22 +86,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &659868014981182603
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 659868014981182600}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 47ddc36702ab2b7468ece0a5d7377a05, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  waypoints:
-  - {x: 0, y: -3.64, z: 0}
-  speed: 5
-  shouldFlip: 0
 --- !u!61 &659868014981182597
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -147,3 +131,19 @@ PlatformEffector2D:
   m_UseSideFriction: 0
   m_UseSideBounce: 0
   m_SideArc: 1
+--- !u!114 &451073071
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 659868014981182600}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 33631209fafc5c045b4296b708379d6d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  waypoints:
+  - {x: -7.86, y: 0, z: 0}
+  speed: 5
+  shouldFlip: 0
