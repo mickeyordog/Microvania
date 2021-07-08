@@ -8,10 +8,12 @@ public class Player : Mob
 {
     Vector3 respawnPoint;
 
-    private Rigidbody2D rb;
+    public Rigidbody2D rb;
+    public SpriteRenderer sr;
     private Collider2D coll;
+
     
-    PlayerMovement movement;
+    public PlayerMovement movement;
 
     public static Player Instance;
     private void Awake()
@@ -25,6 +27,7 @@ public class Player : Mob
         rb = GetComponent<Rigidbody2D>();
         coll = GetComponent<Collider2D>();
         movement = GetComponent<PlayerMovement>();
+        sr = GetComponentInChildren<SpriteRenderer>();
     }
 
     // Start is called before the first frame update
