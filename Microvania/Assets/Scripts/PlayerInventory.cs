@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class PlayerInventory : MonoBehaviour
 {
-    public List<Pickup> items;
+    [SerializeField]
+    private List<Item> items;
 
     public static PlayerInventory Instance;
     private void Awake()
@@ -12,18 +13,22 @@ public class PlayerInventory : MonoBehaviour
         if (Instance == null)
             Instance = this;
         if (Instance != this)
-            Destroy(this);
-
-        public Pickup GetItemOfType(PickupType type)
-    {
-        foreach (Pickup pickup in items)
         {
-            if (pickup.type == type)
-            {
-                return pickup;
-            }
+            Debug.Log("More than one instance of " + name);
+            Destroy(this);
         }
-        return null;
+
+        //items = new SortedSet<Item>();
+    }
+
+    public void AddItem(Item item)
+    {
+        if (!items.Contains(item))
+            items.Add(item);
+    }
+    public bool ContainsItem(Item targetItem)
+    {
+        return items.Contains(targetItem);
     }
     // Start is called before the first frame update
     void Start()

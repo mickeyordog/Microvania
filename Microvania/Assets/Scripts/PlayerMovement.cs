@@ -8,6 +8,7 @@ public class PlayerMovement : MonoBehaviour
     public float jumpSpeed = 10f;
     public float walkSpeed = 10f;
     public float dashSpeed = 10f;
+    public float terminalVelocity = 10f;
 
     private Vector2 velocity = Vector2.zero;
     public float movementSmoothing = 0.05f;
@@ -26,7 +27,9 @@ public class PlayerMovement : MonoBehaviour
     public float walledRadius;
     private bool isOnWall;
 
-
+    public Item rightMovementItem;
+    public Item leftMovementItem;
+    public Item jumpItem;
 
     private Rigidbody2D rb;
     private Animator anim;
@@ -92,6 +95,11 @@ public class PlayerMovement : MonoBehaviour
     private void SetHorizontalVelocity()
     {
         float targetHorizontalVelocity = Input.GetAxisRaw("Horizontal") * walkSpeed;
+        if ((targetHorizontalVelocity < 0f && !PlayerInventory.Instance.ContainsItem(leftMovementItem)) || 
+            (targetHorizontalVelocity > 0f && !PlayerInventory.Instance.ContainsItem(rightMovementItem)))
+        {
+            targetHorizontalVelocity = 0f;
+        }
         if (targetHorizontalVelocity < 0f)
         {
             transform.rotation = Quaternion.Euler(transform.position.x, 180, transform.position.z);
@@ -106,7 +114,8 @@ public class PlayerMovement : MonoBehaviour
 
     private bool CanJump()
     {
-        return (isGrounded && Time.time - timeLastPressedJump <= jumpBufferInterval) || ((isOnWall || Time.time - timeLastOnGround <= coyoteTimeInterval) && Input.GetButtonDown("Jump"));
+        return ((isGrounded && Time.time - timeLastPressedJump <= jumpBufferInterval) || ((isOnWall || Time.time - timeLastOnGround <= coyoteTimeInterval) && Input.GetButtonDown("Jump")))
+            && PlayerInventory.Instance.ContainsItem(jumpItem);
     }
 
     private void Dash()
@@ -178,6 +187,10 @@ public class PlayerMovement : MonoBehaviour
         if (Input.GetButton("Jump") && rb.velocity.y > 0f && Time.time - timeOfLastJump <= variableJumpHeightInterval)
         {
             rb.velocity = new Vector2(rb.velocity.x, jumpSpeed);
+        }
+        if (rb.velocity.y < -terminalVelocity)
+        {
+            rb.velocity = new Vector2(rb.velocity.x, -terminalVelocity);
         }
     }
 

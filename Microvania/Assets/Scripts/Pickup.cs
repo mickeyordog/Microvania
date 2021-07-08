@@ -2,9 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class Pickup : MonoBehaviour
 {
-    public PickupType type;
+    public Item item;
 
     // Start is called before the first frame update
     void Start()
@@ -17,9 +18,11 @@ public class Pickup : MonoBehaviour
     {
         
     }
+
+    public void PickUp()
+    {
+        PlayerInventory.Instance.AddItem(item);
+        Destroy(gameObject);
+    }
 }
 
-public enum PickupType
-{
-    Right, Left, Jump
-}

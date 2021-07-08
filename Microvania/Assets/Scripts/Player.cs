@@ -64,6 +64,15 @@ public class Player : Mob
         }
     }
 
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        Pickup pickup = collision.gameObject.GetComponent<Pickup>();
+        if (pickup)
+        {
+            pickup.PickUp();
+        }
+    }
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
         ContactDamager cd = collision.gameObject.GetComponent<ContactDamager>();
@@ -90,6 +99,8 @@ public class Player : Mob
         {
             transform.parent = pp.transform;
         }
+
+        
     }
 
     private void OnCollisionExit2D(Collision2D collision)
