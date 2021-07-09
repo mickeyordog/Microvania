@@ -33,8 +33,9 @@ public class AchievementManager : MonoBehaviour
     public void AchievementCompleted(Achievement achievement)
     {
         StartCoroutine(AchievementPanel.Instance.ShowAchievement(achievement));
-        Debug.Log("Achievement completed: " + achievement.title + ", " + achievement.description);
     }
+
+   
 
 }
 
@@ -43,7 +44,7 @@ public class Achievement
     public string title = "Achievement";
     public string description = "Description";
     public int requiredNumber;
-    int currentNumber = 0;
+    public int currentNumber = 0;
     [HideInInspector]
     public bool isCompleted = false;
 

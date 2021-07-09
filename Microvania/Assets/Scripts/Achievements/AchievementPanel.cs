@@ -40,6 +40,7 @@ public class AchievementPanel : MonoBehaviour
     {
         title.text = achievement.title;
         description.text = achievement.description;
+        
         anim.SetBool("panelOpen", true);
         yield return new WaitForSeconds(5f);
         anim.SetBool("panelOpen", false);
