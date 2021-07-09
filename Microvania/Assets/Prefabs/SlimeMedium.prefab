@@ -149,11 +149,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 002a9e7ad4ac6ab4dabc9a4969cbcd7a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  spawnOnDeath: {fileID: 6165241949885342567, guid: 5d699b75652e2ac49ba80c6e13d5a517, type: 3}
+  numToSpawnOnDeath: 2
+  enemyType: 0
   stompableDirection: {x: 0, y: 1}
   minDotWithStompDirection: 0.75
   deathLaunchForce: 1000
-  spawnOnDeath: {fileID: 6165241949885342567, guid: 5d699b75652e2ac49ba80c6e13d5a517, type: 3}
-  numToSpawnOnDeath: 2
 --- !u!70 &7795523382649715941
 CapsuleCollider2D:
   m_ObjectHideFlags: 0

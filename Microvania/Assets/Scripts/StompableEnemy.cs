@@ -2,22 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class StompableEnemy : Mob
+public class StompableEnemy : Enemy
 {
     public Vector2 stompableDirection = Vector2.up;
     public float minDotWithStompDirection = 0.75f;
     public float deathLaunchForce = 10f;
-
-    public GameObject spawnOnDeath;
-    public int numToSpawnOnDeath;
-
-
-    Rigidbody2D rb;
-
-    private void Awake()
-    {
-        rb = GetComponent<Rigidbody2D>();
-    }
 
     // Start is called before the first frame update
     void Start()
@@ -31,17 +20,7 @@ public class StompableEnemy : Mob
         
     }
 
-    void Die(bool shouldGoLeft)
-    {
-        SpinAway(true);
-        if (spawnOnDeath)
-        {
-            for (int i = 0; i < numToSpawnOnDeath; i++)
-                Instantiate(spawnOnDeath, transform.position, Quaternion.identity);
-        }
-            
-        Destroy(gameObject, 3f);
-    }
+    
 
     // return true if stomp successful
     public bool TryToStomp(Collision2D collision)
