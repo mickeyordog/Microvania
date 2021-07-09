@@ -78,10 +78,12 @@ public class Player : Mob
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
+        StartCoroutine(CameraController.Instance.ShakeCamera());
         ContactDamager cd = collision.gameObject.GetComponent<ContactDamager>();
         if (cd)
         {
             DieWrapper(true);
+            
         }
 
         StompableEnemy se = collision.gameObject.GetComponent<StompableEnemy>();

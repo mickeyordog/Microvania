@@ -1,12 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Cinemachine;
 
 public class CameraController : MonoBehaviour
 {
     Transform player;
     public bool followPlayer = true;
     public bool followY = false;
+
+    [SerializeField]
+    CinemachineVirtualCamera cinemachine;
+    public float shakeIntensity = 2.5f;
+    public float shakeTime = 0.1f;
 
     public static CameraController Instance;
     private void Awake()
@@ -39,5 +45,13 @@ public class CameraController : MonoBehaviour
             transform.position = new Vector3(player.position.x, targetY, transform.position.z);
         }
         
+    }
+
+    public IEnumerator ShakeCamera()
+    {
+        var shaker = cinemachine.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
+        shaker.m_AmplitudeGain = shakeIntensity;
+        yield return new WaitForSeconds(shakeTime);
+        shaker.m_AmplitudeGain = 0f;
     }
 }
