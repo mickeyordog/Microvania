@@ -19,6 +19,7 @@ public class PlayerMovement : MonoBehaviour
     private float timeLastOnGround = 0f;
     public float coyoteTimeInterval = 0.1f;
     private float timeLastPressedJump = Mathf.NegativeInfinity;
+    private bool jumpJustPressed = false;
     public float jumpBufferInterval = 0.1f;
     private float timeOfLastJump = Mathf.NegativeInfinity;
     public float variableJumpHeightInterval = 0.25f;
@@ -58,20 +59,21 @@ public class PlayerMovement : MonoBehaviour
         if (Input.GetButtonDown("Jump"))
         {
             timeLastPressedJump = Time.time;
+            jumpJustPressed = true;
         }
         //if ((isGrounded || isOnWall || Time.time - timeLastOnGround <= coyoteTimeInterval) && Time.time - timeLastPressedJump <= jumpBufferInterval)
-        if (CanJump())
+        /*if (CanJump())
         {
             Jump();
-        }
+        }*/
         if (Input.GetButtonDown("Fire1"))
         {
-            Dash();
+            //Dash();
 
         }
         else
         {
-            SetHorizontalVelocity();
+            //SetHorizontalVelocity();
         }
 
         if (Input.GetAxisRaw("Vertical") < 0f && PlatformIsBelow())
@@ -114,8 +116,10 @@ public class PlayerMovement : MonoBehaviour
 
     private bool CanJump()
     {
-        return ((isGrounded && Time.time - timeLastPressedJump <= jumpBufferInterval) || ((isOnWall || Time.time - timeLastOnGround <= coyoteTimeInterval) && Input.GetButtonDown("Jump")))
+        return ((isGrounded && Time.time - timeLastPressedJump <= jumpBufferInterval) || ((isOnWall || Time.time - timeLastOnGround <= coyoteTimeInterval) && jumpJustPressed))
             && PlayerInventory.Instance.ContainsItem(jumpItem);
+        //return ((isGrounded && Time.time - timeLastPressedJump <= jumpBufferInterval) || ((isOnWall || Time.time - timeLastOnGround <= coyoteTimeInterval) && Input.GetButtonDown("Jump")))
+        //    && PlayerInventory.Instance.ContainsItem(jumpItem);
     }
 
     private void Dash()
@@ -192,6 +196,13 @@ public class PlayerMovement : MonoBehaviour
         {
             rb.velocity = new Vector2(rb.velocity.x, -terminalVelocity);
         }
+
+        SetHorizontalVelocity();
+        if (CanJump())
+        {
+            Jump();
+        }
+        jumpJustPressed = false;
     }
 
     private void OnDrawGizmosSelected()
