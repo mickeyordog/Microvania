@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-public abstract class Enemy : Mob
+public class Enemy : Mob
 {
     public GameObject spawnOnDeath;
     public int numToSpawnOnDeath;
@@ -11,7 +11,7 @@ public abstract class Enemy : Mob
     public EnemyType enemyType = EnemyType.None;
     public static event Action<EnemyType> OnAnyEnemyKilled;
 
-    protected void Die(bool shouldGoLeft)
+    public void Die(bool shouldGoLeft)
     {
         SpinAway(true);
         if (spawnOnDeath)
