@@ -1,16 +1,13 @@
 fileFormatVersion: 2
-guid: c3a9b6f4b0984e14486123fc32a50d11
+guid: 6b2920e7ac06dfe4285b610e4e501831
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 7873444928579934181
-    second: Cactus_0
+      213: -2171869769579782635
+    second: ConveyorBelt_0
   - first:
-      213: 4438351552130452648
-    second: Cactus_1
-  - first:
-      213: -8484647995636279456
-    second: Cactus_2
+      213: 4388537090076405951
+    second: ConveyorBelt_1
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -112,64 +109,43 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Cactus_0
+      name: ConveyorBelt_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
-        width: 32
-        height: 48
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+        x: 3
+        y: 1
+        width: 58
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 5e79b9e7278144d60800000000000000
-      internalID: 7873444928579934181
+      spriteID: 51e99cd93f7fbd1e0800000000000000
+      internalID: -2171869769579782635
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Cactus_1
+      name: ConveyorBelt_1
       rect:
         serializedVersion: 2
-        x: 32
-        y: 0
-        width: 32
-        height: 48
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+        x: 67
+        y: 1
+        width: 90
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 8ac0a05a831389d30800000000000000
-      internalID: 4438351552130452648
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Cactus_2
-      rect:
-        serializedVersion: 2
-        x: 64
-        y: 0
-        width: 32
-        height: 48
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 0679edff999704a80800000000000000
-      internalID: -8484647995636279456
+      spriteID: fb071a16b3737ec30800000000000000
+      internalID: 4388537090076405951
       vertices: []
       indices: 
       edges: []
